@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Alsamixer
 # vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master) | sed 's/%//')
 # Pulseaudio
