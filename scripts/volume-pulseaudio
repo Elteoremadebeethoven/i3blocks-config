@@ -1,6 +1,6 @@
 #!/bin/bash
 # Alsamixer
-# vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master) | sed 's/%//')
+# vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master | grep "\[on\]") | sed 's/%//')
 # Pulseaudio
 vol=$(pacmd dump-volumes | awk 'NR==1{print $8}' | sed 's/\%//')
 
