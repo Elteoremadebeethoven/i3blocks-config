@@ -1,25 +1,45 @@
 #!/bin/bash
 
-# Obtener el estado actual de la batería
-status=$(cat /sys/class/power_supply/BAT0/status)
+# Get battery percentage
+battery_path="/sys/class/power_supply/BAT0"
+battery_status=$(cat $battery_path/status)
+battery_capacity=$(cat $battery_path/capacity)
 
-# Obtener el nivel actual de la batería
-level=$(cat /sys/class/power_supply/BAT0/capacity)
+# echo "Battery: ${battery_capacity}% (${battery_status})"
+# Define icons for battery status
+icon_charging=""
+icon_discharging=""
+icon_full=""
+icon_empty=""
 
-# Definir el color y el ícono para cada estado de la batería
-if [ "$status" == "Charging" ]; then
-  color="#88c0d0"
-  icon=""
-elif [ "$level" -gt 66 ]; then
-  color="#88c0d0"
-  icon=""
-elif [ "$level" -gt 33 ]; then
-  color="#EBDBB2"
-  icon=""
+# Choose icon based on battery status
+if [[ "$battery_status" == "Charging" ]]; then
+    icon=$icon_charging
+elif [[ "$battery_status" == "Discharging" ]]; then
+    icon=$icon_discharging
+elif [[ "$battery_status" == "Full" ]]; then
+    icon=$icon_full
 else
-  color="#bf616a"
-  icon=""
+    icon=$icon_empty
 fi
 
-# Imprimir el nivel actual de la batería con el ícono y el color correspondientes
-echo "<span foreground='$color'>$icon $level%</span>"
+# echo "$icon ${battery_capacity}%"
+#
+# Define colors based on battery capacity
+if (( battery_capacity <= 30 )); then
+    color="#FF0000" # red
+elif (( battery_capacity <= 50 )); then
+    color="#FFA500" # orange
+elif (( battery_capacity <= 80 )); then
+    color="#00FF00" # green
+else
+    color="#FFFFFF" # white
+fi
+
+# Reset color if battery is charging
+if [[ "$battery_status" == "Charging" ]]; then
+    color="#FFFFFF" # white
+fi
+
+# Print battery info with icon and color
+echo -e "<span foreground='$color'>$icon ${battery_capacity}%</span>"
