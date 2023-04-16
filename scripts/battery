@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Obtener el estado actual de la batería
+status=$(cat /sys/class/power_supply/BAT0/status)
+
+# Obtener el nivel actual de la batería
+level=$(cat /sys/class/power_supply/BAT0/capacity)
+
+# Definir el color y el ícono para cada estado de la batería
+if [ "$status" == "Charging" ]; then
+  color="#88c0d0"
+  icon=""
+elif [ "$level" -gt 66 ]; then
+  color="#88c0d0"
+  icon=""
+elif [ "$level" -gt 33 ]; then
+  color="#EBDBB2"
+  icon=""
+else
+  color="#bf616a"
+  icon=""
+fi
+
+# Imprimir el nivel actual de la batería con el ícono y el color correspondientes
+echo "<span foreground='$color'>$icon $level%</span>"
