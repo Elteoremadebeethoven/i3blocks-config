@@ -7,10 +7,10 @@ battery_capacity=$(cat $battery_path/capacity)
 
 # echo "Battery: ${battery_capacity}% (${battery_status})"
 # Define icons for battery status
-icon_charging=""
-icon_discharging=""
-icon_full=""
-icon_empty=""
+icon_charging=" "
+icon_discharging=" "
+icon_full=" "
+icon_empty=" "
 
 # Choose icon based on battery status
 if [[ "$battery_status" == "Charging" ]]; then
